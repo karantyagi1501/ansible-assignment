@@ -1,0 +1,16 @@
+---
+- hosts: webservers
+  user: ansible
+  become: yes
+  connection: ssh
+  roles:
+   - demoroles
+   
+ ( master.yml)
+------------------------------------------------------------------------------------------
+
+- name: installing httpd
+  yum: pkg=httpd state=latest
+  
+  
+(main.yml)
