@@ -1,0 +1,18 @@
+---
+- hosts: webservers
+  user: ansible
+  become: yes
+  connection: ssh
+  tasks:
+    - name: Install httpd and mysql
+      action: yum name=httpd state=latest
+      notify:
+       - deploy index.html
+       - restart httpd
+  handlers:
+    - name: deploy index.html
+      copy:
+       src: /root/index.html
+       dest: /var/www/html/index.html
+    - name: restart httpd
+      action: service name=httpd state=restarted
