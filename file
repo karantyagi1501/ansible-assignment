@@ -1,0 +1,11 @@
+---
+- hosts: webservers
+  user: ansible
+  become: yes
+  connection: ssh
+  tasks:
+  - name: creating a file
+    file:
+      path: "/root/sample/karan.txt"
+      state: touch
+    become: yes
