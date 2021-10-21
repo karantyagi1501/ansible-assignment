@@ -1,0 +1,31 @@
+---
+- hosts: all
+  user: ansible
+  become: yes
+  connection: ssh
+  vars:
+   pkgname:
+    - httpd
+    - mysql
+    - php
+    - php-mysql
+  tasks:
+    - name: Install httpd and mysql and php
+      action: yum name='{{pkgname}}' state=latest
+      notify:
+       - start httpd
+       - start mysql
+       - deploy index.html
+       - restart httpd
+  handlers:
+    - name: start httpd
+      action: service name=httpd state=started
+    - name: start mysql-server
+      action: service name=mysql state=started
+    - name: deploy index.html
+      copy:
+       src: /root/index.html
+       dest: /var/www/html/index.html
+    - name: restart httpd
+      action: service name=httpd state=restarted
+
